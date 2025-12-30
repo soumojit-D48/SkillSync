@@ -23,6 +23,7 @@ export interface User {
 }
 
 export interface AuthResponse {
+  access_token(arg0: string, access_token: any): unknown;
   user: User;
   tokens: {
     access_token: string;
