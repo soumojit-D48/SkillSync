@@ -60,7 +60,7 @@ async def update_user_email(
     return user_service.update_email(current_user.id, email_data)
 
 
-@router.get("/dashboard", response_model=UserDashboardResponse)
+@router.post("/dashboard", response_model=UserDashboardResponse)
 async def get_user_dashboard(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)

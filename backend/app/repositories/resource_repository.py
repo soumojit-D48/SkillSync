@@ -1,6 +1,6 @@
 from typing import List, Optional, Tuple
 from sqlalchemy.orm import Session, joinedload
-from sqlalchemy import func, and_, desc
+from sqlalchemy import func, and_, desc, case
 
 from app.models.resource import Resource, ResourceType
 from app.models.skill import Skill
@@ -94,13 +94,20 @@ class ResourceRepository:
         self.db.commit()
         self.db.refresh(resource)
         return resource
-    
+
     def get_stats(self, user_id: int) -> dict:
         """Get resource statistics for user."""
+        # Query through the Skill relationship since Resource doesn't have user_id
         stats = self.db.query(
             func.count(Resource.id).label("total"),
-            func.sum(
-                func.case((Resource.is_completed == True, 1), else_=0)
+            func.coalesce(
+                func.sum(
+                    case(
+                        (Resource.is_completed.is_(True), 1),
+                        else_=0
+                    )
+                ),
+                0
             ).label("completed")
         ).join(Skill).filter(Skill.user_id == user_id).first()
         
@@ -118,7 +125,7 @@ class ResourceRepository:
         
         total = stats.total or 0
         completed = stats.completed or 0
-        completion_rate = (completed / total * 100) if total > 0 else 0
+        completion_rate = (completed / total * 100) if total > 0 else 0.0
         
         return {
             "total_resources": total,
@@ -126,7 +133,10 @@ class ResourceRepository:
             "by_type": by_type,
             "completion_rate": completion_rate
         }
-    
+
+
+
+
     def get_by_skill(self, skill_id: int) -> List[Resource]:
         """Get all resources for a specific skill."""
         return self.db.query(Resource).filter(

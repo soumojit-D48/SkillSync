@@ -15,7 +15,8 @@ from app.schemas.resource import (
 )
 from app.models.user import User
 
-router = APIRouter(prefix="/resources", tags=["resources"])
+# router = APIRouter(prefix="/resources", tags=["resources"])
+router = APIRouter()  # Remove prefix here
 
 @router.post(
     "/",
@@ -23,7 +24,7 @@ router = APIRouter(prefix="/resources", tags=["resources"])
     status_code=status.HTTP_201_CREATED,
     summary="Create a new resource"
 )
-async def create_resource(
+def create_resource(  # Remove async
     resource_data: ResourceCreate,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
@@ -37,7 +38,7 @@ async def create_resource(
     - **resource_type**: Type of resource (article, video, book, etc.)
     - **description**: Optional description
     """
-    return await ResourceService(db).create_resource(
+    return ResourceService(db).create_resource(  # Remove await
         user_id=current_user.id,
         resource_data=resource_data
     )
@@ -47,7 +48,7 @@ async def create_resource(
     response_model=ResourceListResponse,
     summary="Get all resources with filtering"
 )
-async def get_resources(
+def get_resources(  # Remove async
     skill_id: Optional[int] = Query(None, description="Filter by skill ID"),
     resource_type: Optional[ResourceTypeEnum] = Query(None, description="Filter by resource type"),
     is_completed: Optional[bool] = Query(None, description="Filter by completion status"),
@@ -59,17 +60,14 @@ async def get_resources(
     """
     Get a paginated list of resources with optional filtering.
     """
-    filters = ResourceFilter(
+    # Changed to call get_all_resources with individual parameters
+    return ResourceService(db).get_all_resources(
+        user_id=current_user.id,
         skill_id=skill_id,
         resource_type=resource_type,
         is_completed=is_completed,
         page=page,
         page_size=page_size
-    )
-    
-    return await ResourceService(db).get_resources(
-        user_id=current_user.id,
-        filters=filters
     )
 
 @router.get(
@@ -77,7 +75,7 @@ async def get_resources(
     response_model=ResourceStatsResponse,
     summary="Get resource statistics"
 )
-async def get_resource_stats(
+def get_resource_stats(  # Remove async
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
@@ -89,14 +87,14 @@ async def get_resource_stats(
     - Completion statistics
     - Distribution by resource type
     """
-    return await ResourceService(db).get_resource_stats(user_id=current_user.id)
+    return ResourceService(db).get_stats(user_id=current_user.id)  # Changed method name
 
 @router.get(
     "/{resource_id}",
     response_model=ResourceResponse,
     summary="Get a single resource by ID"
 )
-async def get_resource(
+def get_resource(  # Remove async
     resource_id: int,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
@@ -104,7 +102,7 @@ async def get_resource(
     """
     Get a single resource by its ID.
     """
-    resource = await ResourceService(db).get_resource(
+    resource = ResourceService(db).get_resource(  # Remove await
         user_id=current_user.id,
         resource_id=resource_id
     )
@@ -120,7 +118,7 @@ async def get_resource(
     response_model=ResourceResponse,
     summary="Update a resource"
 )
-async def update_resource(
+def update_resource(  # Remove async
     resource_id: int,
     resource_data: ResourceUpdate,
     current_user: User = Depends(get_current_user),
@@ -131,7 +129,7 @@ async def update_resource(
     
     All fields are optional. Only provided fields will be updated.
     """
-    resource = await ResourceService(db).update_resource(
+    resource = ResourceService(db).update_resource(  # Remove await
         user_id=current_user.id,
         resource_id=resource_id,
         resource_data=resource_data
@@ -148,7 +146,7 @@ async def update_resource(
     status_code=status.HTTP_204_NO_CONTENT,
     summary="Delete a resource"
 )
-async def delete_resource(
+def delete_resource(  # Remove async
     resource_id: int,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
@@ -156,15 +154,10 @@ async def delete_resource(
     """
     Delete a resource.
     """
-    success = await ResourceService(db).delete_resource(
+    ResourceService(db).delete_resource(  # Remove await and change return
         user_id=current_user.id,
         resource_id=resource_id
     )
-    if not success:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Resource not found"
-        )
     return None
 
 @router.post(
@@ -172,7 +165,7 @@ async def delete_resource(
     response_model=ResourceResponse,
     summary="Mark a resource as completed"
 )
-async def mark_resource_completed(
+def mark_resource_completed(  # Remove async
     resource_id: int,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
@@ -180,7 +173,7 @@ async def mark_resource_completed(
     """
     Mark a resource as completed.
     """
-    resource = await ResourceService(db).mark_completed(
+    resource = ResourceService(db).mark_completed(  # Remove await
         user_id=current_user.id,
         resource_id=resource_id
     )
