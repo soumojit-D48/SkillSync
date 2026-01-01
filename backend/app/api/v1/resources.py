@@ -16,7 +16,7 @@ from app.schemas.resource import (
 from app.models.user import User
 
 # router = APIRouter(prefix="/resources", tags=["resources"])
-router = APIRouter()  # Remove prefix here
+router = APIRouter()  
 
 @router.post(
     "/",
@@ -24,7 +24,7 @@ router = APIRouter()  # Remove prefix here
     status_code=status.HTTP_201_CREATED,
     summary="Create a new resource"
 )
-def create_resource(  # Remove async
+def create_resource(  
     resource_data: ResourceCreate,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
@@ -38,7 +38,7 @@ def create_resource(  # Remove async
     - **resource_type**: Type of resource (article, video, book, etc.)
     - **description**: Optional description
     """
-    return ResourceService(db).create_resource(  # Remove await
+    return ResourceService(db).create_resource(  
         user_id=current_user.id,
         resource_data=resource_data
     )
@@ -48,7 +48,7 @@ def create_resource(  # Remove async
     response_model=ResourceListResponse,
     summary="Get all resources with filtering"
 )
-def get_resources(  # Remove async
+def get_resources(  
     skill_id: Optional[int] = Query(None, description="Filter by skill ID"),
     resource_type: Optional[ResourceTypeEnum] = Query(None, description="Filter by resource type"),
     is_completed: Optional[bool] = Query(None, description="Filter by completion status"),
@@ -75,7 +75,7 @@ def get_resources(  # Remove async
     response_model=ResourceStatsResponse,
     summary="Get resource statistics"
 )
-def get_resource_stats(  # Remove async
+def get_resource_stats( 
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
@@ -87,14 +87,14 @@ def get_resource_stats(  # Remove async
     - Completion statistics
     - Distribution by resource type
     """
-    return ResourceService(db).get_stats(user_id=current_user.id)  # Changed method name
+    return ResourceService(db).get_stats(user_id=current_user.id)  
 
 @router.get(
     "/{resource_id}",
     response_model=ResourceResponse,
     summary="Get a single resource by ID"
 )
-def get_resource(  # Remove async
+def get_resource(  
     resource_id: int,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
@@ -102,7 +102,7 @@ def get_resource(  # Remove async
     """
     Get a single resource by its ID.
     """
-    resource = ResourceService(db).get_resource(  # Remove await
+    resource = ResourceService(db).get_resource(  
         user_id=current_user.id,
         resource_id=resource_id
     )
@@ -118,7 +118,7 @@ def get_resource(  # Remove async
     response_model=ResourceResponse,
     summary="Update a resource"
 )
-def update_resource(  # Remove async
+def update_resource(  
     resource_id: int,
     resource_data: ResourceUpdate,
     current_user: User = Depends(get_current_user),
@@ -129,7 +129,7 @@ def update_resource(  # Remove async
     
     All fields are optional. Only provided fields will be updated.
     """
-    resource = ResourceService(db).update_resource(  # Remove await
+    resource = ResourceService(db).update_resource(  
         user_id=current_user.id,
         resource_id=resource_id,
         resource_data=resource_data
@@ -146,7 +146,7 @@ def update_resource(  # Remove async
     status_code=status.HTTP_204_NO_CONTENT,
     summary="Delete a resource"
 )
-def delete_resource(  # Remove async
+def delete_resource(  
     resource_id: int,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
@@ -165,7 +165,7 @@ def delete_resource(  # Remove async
     response_model=ResourceResponse,
     summary="Mark a resource as completed"
 )
-def mark_resource_completed(  # Remove async
+def mark_resource_completed(  
     resource_id: int,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
@@ -173,7 +173,7 @@ def mark_resource_completed(  # Remove async
     """
     Mark a resource as completed.
     """
-    resource = ResourceService(db).mark_completed(  # Remove await
+    resource = ResourceService(db).mark_completed(  
         user_id=current_user.id,
         resource_id=resource_id
     )
