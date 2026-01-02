@@ -1,13 +1,115 @@
 
 from typing import List, Dict
 from datetime import date
+import logging
+from openai import OpenAI
+
+from app.core.config import settings
+
+logger = logging.getLogger(__name__)
 
 
 class SummaryGenerator:
     """Generate AI-powered weekly summaries."""
     
+    def __init__(self):
+        """Initialize OpenRouter client."""
+        if settings.AI_SUMMARY_ENABLED and settings.OPENROUTER_API_KEY:
+            self.client = OpenAI(
+                base_url=settings.OPENROUTER_BASE_URL,
+                api_key=settings.OPENROUTER_API_KEY,
+            )
+        else:
+            self.client = None
+            logger.warning("AI summary disabled or API key missing. Using template-based summaries.")
+    
+    def generate_ai_summary(self, week_data: dict) -> str:
+        """
+        Generate AI summary using OpenRouter API.
+        Falls back to template-based if API fails or is disabled.
+        """
+        # Try AI generation if enabled
+        if self.client and settings.AI_SUMMARY_ENABLED:
+            try:
+                return self._generate_with_openrouter(week_data)
+            except Exception as e:
+                logger.error(f"OpenRouter API failed: {e}. Falling back to template.")
+        
+        # Fallback to template-based generation
+        return self._generate_template_summary(
+            week_start=week_data.get("week_start"),
+            week_end=week_data.get("week_end"),
+            total_time=week_data.get("total_time", 0),
+            skills_breakdown=week_data.get("skills_breakdown", []),
+            daily_breakdown=week_data.get("daily_breakdown", [])
+        )
+    
+    def _generate_with_openrouter(self, week_data: dict) -> str:
+        """Generate summary using OpenRouter API."""
+        # Prepare data for AI
+        total_time = week_data.get("total_time", 0)
+        skills_breakdown = week_data.get("skills_breakdown", [])
+        daily_breakdown = week_data.get("daily_breakdown", [])
+        week_start = week_data.get("week_start")
+        week_end = week_data.get("week_end")
+        
+        # Convert minutes to hours for readability
+        total_hours = total_time / 60
+        
+        # Build context
+        skills_summary = ", ".join([
+            f"{s['skill_name']} ({s['percentage']:.0f}%, {s['time_spent']}min)"
+            for s in skills_breakdown[:5]  # Top 5 skills
+        ])
+        
+        active_days = len(daily_breakdown)
+        avg_daily_minutes = total_time // 7 if total_time > 0 else 0
+        
+        # Create prompt
+        prompt = f"""Generate a motivational and insightful weekly learning summary for a user.
+
+Week: {week_start} to {week_end}
+
+Learning Data:
+- Total time: {total_hours:.1f} hours ({total_time} minutes)
+- Active days: {active_days} out of 7
+- Average daily time: {avg_daily_minutes} minutes
+- Skills practiced: {skills_summary if skills_summary else "None"}
+
+Requirements:
+1. Be encouraging and motivational
+2. Highlight achievements and consistency
+3. Provide constructive suggestions if needed
+4. Keep it concise (2-3 sentences max)
+5. Use emojis sparingly (1-2 max)
+6. Focus on progress, not perfection
+
+Write a personalized summary that celebrates their effort and inspires them to continue."""
+
+        # Call OpenRouter API
+        response = self.client.chat.completions.create(
+            model=settings.OPENROUTER_MODEL,
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a supportive learning coach who creates motivational weekly summaries."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            max_tokens=settings.AI_SUMMARY_MAX_TOKENS,
+            temperature=settings.AI_SUMMARY_TEMPERATURE,
+        )
+        
+        summary = response.choices[0].message.content.strip()
+        logger.info(f"Generated AI summary with {settings.OPENROUTER_MODEL}")
+        
+        return summary
+    
     @staticmethod
-    def generate_summary(
+    def _generate_template_summary(
         week_start: date,
         week_end: date,
         total_time: int,
@@ -15,10 +117,8 @@ class SummaryGenerator:
         daily_breakdown: List[Dict]
     ) -> str:
         """
-        Generate a natural language summary of the week's learning.
-        
-        In production, this would call an AI API (OpenAI, Anthropic, etc.)
-        For now, we'll create a smart template-based summary.
+        Generate template-based summary (fallback).
+        Used when AI is disabled or fails.
         """
         
         if total_time == 0:
@@ -96,19 +196,3 @@ class SummaryGenerator:
         summary_parts.append(motivational_phrases[random.randint(0, len(motivational_phrases) - 1)])
         
         return " ".join(summary_parts)
-    
-    @staticmethod
-    def generate_ai_summary(week_data: dict) -> str:
-        """
-        Generate AI summary using external API (placeholder for future).
-        
-        TODO: Integrate with OpenAI/Anthropic API
-        For now, uses template-based generation.
-        """
-        return SummaryGenerator.generate_summary(
-            week_start=week_data.get("week_start"),
-            week_end=week_data.get("week_end"),
-            total_time=week_data.get("total_time", 0),
-            skills_breakdown=week_data.get("skills_breakdown", []),
-            daily_breakdown=week_data.get("daily_breakdown", [])
-        )
