@@ -175,6 +175,16 @@ input {
   backdrop-filter: blur(8px);
 }
 
+.auth-input {
+  background-color: hsl(var(--background) / 0.8) !important;
+  backdrop-filter: blur(2px) !important;
+}
+
+.auth-input::placeholder {
+  color: hsl(var(--muted-foreground));
+  opacity: 1;
+}
+
 /* ===================================
    GRADIENT UTILITIES
    =================================== */
