@@ -74,3 +74,15 @@ docker-compose.override.yml
 .cache/
 temp/
 tmp/
+
+
+# 
+
+.env
+__pycache__/
+*.pyc
+*.db
+*.sqlite
+logs/
+.pytest_cache/
+htmlcov/
