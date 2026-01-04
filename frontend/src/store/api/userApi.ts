@@ -56,8 +56,16 @@ export const userApi = baseApi.injectEndpoints({
       invalidatesTags: ['User', 'Auth'],
     }),
 
+    // getDashboard: builder.query<UserDashboard, void>({
+    //   query: () => '/users/dashboard',
+    //   providesTags: ['User'],
+    // }),
+
     getDashboard: builder.query<UserDashboard, void>({
-      query: () => '/users/dashboard',
+      query: () => ({
+        url: '/users/dashboard',
+        method: 'POST',  // Added this line
+      }),
       providesTags: ['User'],
     }),
 

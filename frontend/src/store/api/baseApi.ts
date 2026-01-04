@@ -51,7 +51,7 @@ const baseQueryWithReauth: BaseQueryFn<
         // Refresh failed - logout
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        window.location.href = '/login';
+        window.location.href = '/auth';
       }
     }
   }
