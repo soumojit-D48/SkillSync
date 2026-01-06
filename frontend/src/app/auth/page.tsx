@@ -4,12 +4,12 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Zap, 
-  Mail, 
-  Lock, 
-  User, 
-  Eye, 
+import {
+  Zap,
+  Mail,
+  Lock,
+  User,
+  Eye,
   EyeOff,
   CheckCircle2,
   AlertCircle,
@@ -62,7 +62,7 @@ export default function AuthPage() {
   //     localStorage.setItem('user', JSON.stringify(result.user));
 
   //     setSuccess('Login successful! Redirecting...');
-      
+
   //     setTimeout(() => {
   //       window.location.href = '/dashboard';
   //     }, 1000);
@@ -90,7 +90,7 @@ export default function AuthPage() {
   //     localStorage.setItem('user', JSON.stringify(result.user));
 
   //     setSuccess('Account created! Redirecting...');
-      
+
   //     setTimeout(() => {
   //       window.location.href = '/dashboard';
   //     }, 1000);
@@ -102,135 +102,140 @@ export default function AuthPage() {
 
 
   // In your auth page (page.tsx)
-// const handleLogin = async (e: React.FormEvent) => {
-//   e.preventDefault();
-//   setError('');
-//   setSuccess('');
+  // const handleLogin = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setError('');
+  //   setSuccess('');
 
-//   try {
-//     const result = await login({
-//       email: loginData.email,
-//       password: loginData.password,
-//     }).unwrap();
+  //   try {
+  //     const result = await login({
+  //       email: loginData.email,
+  //       password: loginData.password,
+  //     }).unwrap();
 
-//     // Set cookie instead of localStorage
-//     document.cookie = `token=${result.tokens.access_token}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 days
-    
-//     // Still store in localStorage if you need it
-//     localStorage.setItem('access_token', result.tokens.access_token);
-//     localStorage.setItem('refresh_token', result.tokens.refresh_token);
-//     localStorage.setItem('user', JSON.stringify(result.user));
+  //     // Set cookie instead of localStorage
+  //     document.cookie = `token=${result.tokens.access_token}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 days
 
-//     setSuccess('Login successful! Redirecting...');
-    
-//     setTimeout(() => {
-//       window.location.href = '/dashboard';
-//     }, 1000);
-//   } catch (err: any) {
-//     setError(err?.data?.message || 'Login failed. Please check your credentials.');
-//   }
-// };
+  //     // Still store in localStorage if you need it
+  //     localStorage.setItem('access_token', result.tokens.access_token);
+  //     localStorage.setItem('refresh_token', result.tokens.refresh_token);
+  //     localStorage.setItem('user', JSON.stringify(result.user));
 
-// const handleSignup = async (e: React.FormEvent) => {
-//   e.preventDefault();
-//   setError('');
-//   setSuccess('');
+  //     setSuccess('Login successful! Redirecting...');
 
-//   try {
-//     const result = await register({
-//       email: signupData.email,
-//       username: signupData.username,
-//       password: signupData.password,
-//       full_name: signupData.full_name,
-//     }).unwrap();
+  //     setTimeout(() => {
+  //       window.location.href = '/dashboard';
+  //     }, 1000);
+  //   } catch (err: any) {
+  //     setError(err?.data?.message || 'Login failed. Please check your credentials.');
+  //   }
+  // };
 
-//     // Set cookie instead of localStorage
-//     document.cookie = `token=${result.tokens.access_token}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 days
-    
-//     // Still store in localStorage if you need it
-//     localStorage.setItem('access_token', result.tokens.access_token);
-//     localStorage.setItem('refresh_token', result.tokens.refresh_token);
-//     localStorage.setItem('user', JSON.stringify(result.user));
+  // const handleSignup = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setError('');
+  //   setSuccess('');
 
-//     setSuccess('Account created! Redirecting...');
-    
-//     setTimeout(() => {
-//       window.location.href = '/dashboard';
-//     }, 1000);
-//   } catch (err: any) {
-//     setError(err?.data?.message || 'Registration failed. Please try again.');
-//   }
-// };
+  //   try {
+  //     const result = await register({
+  //       email: signupData.email,
+  //       username: signupData.username,
+  //       password: signupData.password,
+  //       full_name: signupData.full_name,
+  //     }).unwrap();
+
+  //     // Set cookie instead of localStorage
+  //     document.cookie = `token=${result.tokens.access_token}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 days
+
+  //     // Still store in localStorage if you need it
+  //     localStorage.setItem('access_token', result.tokens.access_token);
+  //     localStorage.setItem('refresh_token', result.tokens.refresh_token);
+  //     localStorage.setItem('user', JSON.stringify(result.user));
+
+  //     setSuccess('Account created! Redirecting...');
+
+  //     setTimeout(() => {
+  //       window.location.href = '/dashboard';
+  //     }, 1000);
+  //   } catch (err: any) {
+  //     setError(err?.data?.message || 'Registration failed. Please try again.');
+  //   }
+  // };
 
 
 
   const handleLogin = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setError('');
-  setSuccess('');
+    e.preventDefault();
+    setError('');
+    setSuccess('');
 
-  try {
-    const result = await login({
-      email: loginData.email,
-      password: loginData.password,
-    }).unwrap();
+    try {
+      const result = await login({
+        email: loginData.email,
+        password: loginData.password,
+      }).unwrap();
 
-    // Set cookie with proper attributes
-    document.cookie = `token=${result.tokens.access_token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
-    
-    // Debug: Check if cookie was set
-    console.log('Cookie set:', document.cookie);
-    console.log('Token:', result.tokens.access_token);
-    
-    // Still store in localStorage if you need it
-    localStorage.setItem('access_token', result.tokens.access_token);
-    localStorage.setItem('refresh_token', result.tokens.refresh_token);
-    localStorage.setItem('user', JSON.stringify(result.user));
+      // Set cookie with proper attributes
+      document.cookie = `token=${result.tokens.access_token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
 
-    setSuccess('Login successful! Redirecting...');
-    
-    setTimeout(() => {
-      window.location.href = '/dashboard';
-    }, 1000);
-  } catch (err: any) {
-    setError(err?.data?.message || 'Login failed. Please check your credentials.');
-  }
-};
+      // Debug: Check if cookie was set
+      console.log('Cookie set:', document.cookie);
+      console.log('Token:', result.tokens.access_token);
 
-const handleSignup = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setError('');
-  setSuccess('');
+      // Still store in localStorage if you need it
+      localStorage.setItem('access_token', result.tokens.access_token);
+      localStorage.setItem('refresh_token', result.tokens.refresh_token);
+      localStorage.setItem('user', JSON.stringify(result.user));
 
-  try {
-    const result = await register({
-      email: signupData.email,
-      username: signupData.username,
-      password: signupData.password,
-      full_name: signupData.full_name,
-    }).unwrap();
+      setSuccess('Login successful! Redirecting...');
 
-    // Set cookie with proper attributes
-    document.cookie = `token=${result.tokens.access_token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
-    
-    // Debug: Check if cookie was set
-    console.log('Cookie set:', document.cookie);
-    console.log('Token:', result.tokens.access_token);
-    
-    // Still store in localStorage if you need it
-    localStorage.setItem('access_token', result.tokens.access_token);
-    localStorage.setItem('refresh_token', result.tokens.refresh_token);
-    localStorage.setItem('user', JSON.stringify(result.user));
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 1000);
+    } catch (err: any) {
+      setError(err?.data?.message || 'Login failed. Please check your credentials.');
+    }
+  };
 
-    setSuccess('Account created! Redirecting...');
-    
-    setTimeout(() => {
-      window.location.href = '/dashboard';
-    }, 1000);
-  } catch (err: any) {
-    setError(err?.data?.message || 'Registration failed. Please try again.');
-  }
-};
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    console.log('Starting signup with data:', signupData);
+
+    try {
+      const result = await register({
+        email: signupData.email,
+        username: signupData.username,
+        password: signupData.password,
+        full_name: signupData.full_name,
+      }).unwrap();
+
+      console.log('Signup result:', result);
+
+      // Set cookie with proper attributes
+      document.cookie = `token=${result.tokens.access_token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+
+      // Debug: Check if cookie was set
+      console.log('Cookie set:', document.cookie);
+      console.log('Token:', result.tokens.access_token);
+
+      // Still store in localStorage if you need it
+      localStorage.setItem('access_token', result.tokens.access_token);
+      localStorage.setItem('refresh_token', result.tokens.refresh_token);
+      localStorage.setItem('user', JSON.stringify(result.user));
+
+      setSuccess('Account created! Redirecting...');
+
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 1000);
+    } catch (err: any) {
+      console.error('Signup error:', err);
+      setError(err?.data?.message || 'Registration failed. Please try again.');
+    }
+  };
 
   return (
     <div className="min-h-screen flex bg-background">
@@ -262,8 +267,8 @@ const handleSignup = async (e: React.FormEvent) => {
               {mode === 'login' ? 'Welcome back!' : 'Create your account'}
             </h1>
             <p className="text-muted-foreground">
-              {mode === 'login' 
-                ? 'Enter your credentials to access your account' 
+              {mode === 'login'
+                ? 'Enter your credentials to access your account'
                 : 'Start your learning journey today'}
             </p>
           </motion.div>
@@ -281,11 +286,10 @@ const handleSignup = async (e: React.FormEvent) => {
                 setError('');
                 setSuccess('');
               }}
-              className={`flex-1 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                mode === 'login'
+              className={`flex-1 py-2 rounded-md text-sm font-medium transition-all duration-200 ${mode === 'login'
                   ? 'bg-background text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
-              }`}
+                }`}
             >
               Login
             </button>
@@ -295,11 +299,10 @@ const handleSignup = async (e: React.FormEvent) => {
                 setError('');
                 setSuccess('');
               }}
-              className={`flex-1 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                mode === 'signup'
+              className={`flex-1 py-2 rounded-md text-sm font-medium transition-all duration-200 ${mode === 'signup'
                   ? 'bg-background text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
-              }`}
+                }`}
             >
               Sign Up
             </button>
