@@ -198,7 +198,7 @@ const HeroSection = () => {
               </Link>
               
 
-              <Link href="/dashboard">
+              <Link href="https://www.youtube.com/watch?v=Buh9Tqx5PPc">
               <button className="hero-btn-secondary px-8 py-3.5 rounded-lg font-semibold transition-all duration-300">
                 Watch Demo
               </button>
