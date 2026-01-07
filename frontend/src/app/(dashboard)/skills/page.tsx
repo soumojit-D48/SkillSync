@@ -54,6 +54,8 @@ export default function SkillsPage() {
       >
         <div>
           <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-info bg-clip-text text-transparent">
+              {/* <span className="text-xl font-bold bg-linear-to-r from-primary to-info bg-clip-text text-transparent"> */}
+
             Your Skills
           </h1>
           <p className="text-muted-foreground text-lg">

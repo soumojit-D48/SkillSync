@@ -75,7 +75,8 @@ export function SkillStatsGrid({ stats, isLoading }: SkillStatsGridProps) {
         icon={<Target className="h-5 w-5" />}
         label="Total Skills"
         value={stats?.total_skills || 0}
-        gradient="from-primary to-primary"
+        // gradient="from-primary to-primary"
+        gradient="from-success to-success"
       />
       <StatCard
         icon={<Zap className="h-5 w-5" />}

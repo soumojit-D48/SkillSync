@@ -118,7 +118,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-primary shadow-lg">
                 <Zap className="h-5 w-5 text-white" />
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-primary to-info bg-clip-text text-transparent">
+              <span className="text-xl font-bold bg-linear-to-r from-primary to-info bg-clip-text text-transparent">
                 SkillSync
               </span>
             </Link>
