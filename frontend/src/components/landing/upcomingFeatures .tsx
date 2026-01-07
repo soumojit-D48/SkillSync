@@ -86,7 +86,7 @@ export default function UpcomingFeaturesSection() {
         <section
             id="upcoming"
             ref={ref}
-            className="upcoming-section relative overflow-hidden mx-19"
+            className="upcoming-section relative overflow-hidden mx-26"
         >
             {/* Background Blob */}
             <div className="absolute inset-0 pointer-events-none">
@@ -174,15 +174,3 @@ export default function UpcomingFeaturesSection() {
         </section>
     );
 }
-
-
-
-
-
-
-
-
-
-
-
-

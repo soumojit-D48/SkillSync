@@ -1401,12 +1401,14 @@ input {
   display: flex;
   align-items: center;
   justify-content: center;
+   z-index: 20;
 }
 
 .step-number-text {
   font-size: 0.75rem;
   font-weight: 700;
   color: hsl(var(--primary));
+   z-index: 21;
 }
 
 /* Content Card */
@@ -1418,6 +1420,7 @@ input {
   border: 1px solid hsl(var(--border) / 0.5);
   box-shadow: 0 4px 20px -2px hsl(220 15% 20% / 0.08);
   transition: transform 0.2s ease;
+   z-index: 10;
 }
 
 @media (min-width: 768px) {

@@ -6,17 +6,18 @@ import { motion } from 'framer-motion';
 import { Zap, Github, Twitter, Linkedin, Mail } from 'lucide-react';
 
 const footerLinks = {
-  product: [
-    { name: 'Features', href: '#features' },
-    { name: 'How It Works', href: '#how-it-works' },
-    { name: 'Roadmap', href: '#upcoming' },
-    { name: 'Pricing', href: '#' },
+  Sections: [
+  { name: 'Challenges', href: '#challenges' },
+  { name: 'Features', href: '#features' },
+  { name: 'How It Works', href: '#how-it-works' },
+  { name: 'Upcoming Features', href: '#upcoming' },
+
   ],
-  company: [
-    { name: 'About', href: '#' },
-    { name: 'Blog', href: '#' },
-    { name: 'Careers', href: '#' },
-    { name: 'Contact', href: '#' },
+  Category: [
+    { name: 'Education', href: '#' },
+    { name: 'Technology', href: '#' },
+    { name: 'Professional Development', href: '#' },
+    { name: 'E-Learning', href: '#' },
   ],
   legal: [
     { name: 'Privacy', href: '#' },
@@ -25,10 +26,18 @@ const footerLinks = {
   ],
 };
 
+
+/*
+Education
+Technology
+Professional Development
+E-Learning
+*/
+
 const socialLinks = [
-  { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Github, href: '#', label: 'GitHub' },
-  { icon: Linkedin, href: '#', label: 'LinkedIn' },
+  { icon: Twitter, href: 'https://x.com/Soumojit_Das107', label: 'Twitter' },
+  { icon: Github, href: 'https://github.com/soumojit-D48/SkillSync', label: 'GitHub' },
+  { icon: Linkedin, href: 'https://www.linkedin.com/in/soumojit-das-1010101lnkin/', label: 'LinkedIn' },
   { icon: Mail, href: '#', label: 'Email' },
 ];
 
@@ -63,7 +72,8 @@ export default function Footer() {
               </div>
 
               <span className="text-xl font-display font-bold text-foreground">
-                Skill<span className="text-primary">Sync</span>
+                {/* Skill<span className="text-primary">Sync</span> */}
+                SkillSync
               </span>
             </motion.a>
 
@@ -100,10 +110,10 @@ export default function Footer() {
             transition={{ duration: 0.5, delay: 0.1 }}
           >
             <h4 className="font-display font-semibold text-foreground mb-4">
-              Product
+              Sections
             </h4>
             <ul className="space-y-3">
-              {footerLinks.product.map((link) => (
+              {footerLinks.Sections.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
@@ -124,10 +134,10 @@ export default function Footer() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <h4 className="font-display font-semibold text-foreground mb-4">
-              Company
+              Category
             </h4>
             <ul className="space-y-3">
-              {footerLinks.company.map((link) => (
+              {footerLinks.Category.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
@@ -184,3 +194,8 @@ export default function Footer() {
     </footer>
   );
 }
+
+
+
+
+
