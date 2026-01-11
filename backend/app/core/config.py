@@ -34,10 +34,14 @@ class Settings(BaseSettings):
     OPENROUTER_API_KEY: str = ""
     OPENROUTER_MODEL: str = "anthropic/claude-3.5-sonnet"
     OPENROUTER_BASE_URL: str = "https://openrouter.ai/api/v1"
+
+    # Google Gemini Configuration
+    GEMINI_API_KEY: str = ""
+    GEMINI_MODEL: str = "gemini-1.5-flash" 
     
     # AI Summary Settings
     AI_SUMMARY_ENABLED: bool = True
-    AI_SUMMARY_MAX_TOKENS: int = 500
+    AI_SUMMARY_MAX_TOKENS: int = 200
     AI_SUMMARY_TEMPERATURE: float = 0.7
     
     model_config = SettingsConfigDict(
